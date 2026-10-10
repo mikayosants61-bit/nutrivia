@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nutrivia v2 · Plataforma para Nutricionistas</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Nunito:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#f3f8ec;--card:#fff;--fg:#1f3326;--mut:#6b7d70;--line:#dbe8d3;--acc:#2f8f5b;--accfg:#fff;--soft:#e6f3dc;--warn:#c2571a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121815;--card:#1b2420;--fg:#e8eee9;--mut:#9aa8a0;--line:#2c3832;--acc:#58b988;--accfg:#0e1a13;--soft:#223a2d;--warn:#f0935a}}
+:root[data-theme="dark"]{--bg:#121815;--card:#1b2420;--fg:#e8eee9;--mut:#9aa8a0;--line:#2c3832;--acc:#58b988;--accfg:#0e1a13;--soft:#223a2d;--warn:#f0935a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+input:invalid,select:invalid,textarea:invalid{border-color:var(--warn)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:0}h1 small{font-size:12px;font-weight:500;color:var(--accfg);background:var(--acc);padding:2px 8px;border-radius:99px;vertical-align:middle;margin-left:6px}
+.sub{color:var(--mut);margin:4px 0 14px}
+.tabs{display:flex;gap:6px;margin-bottom:14px}
+.tabs button{flex:1;padding:10px;border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:10px;font:inherit;font-weight:600;cursor:pointer}
+.tabs button.on{background:var(--acc);color:var(--accfg);border-color:var(--acc)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+.card h2{font-size:16px;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+label{display:block;font-size:12px;color:var(--mut);margin-bottom:3px}
+input,select{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:inherit}
+input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.kpi{background:var(--soft);border-radius:12px;padding:10px}.kpi b{display:block;font-size:22px}.kpi span{font-size:12px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th,td{padding:6px 5px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-size:12px;color:var(--mut);font-weight:600}th:first-child,td:first-child{text-align:left}
+td input{width:76px;text-align:right;padding:6px}td select{min-width:190px;padding:6px}
+.scroll{overflow-x:auto;max-width:100%}
+.meal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.meal-h h2{margin:0}.meal-h span{color:var(--mut);font-size:13px}
+.btn{border:1px dashed var(--acc);background:none;color:var(--acc);padding:7px 12px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer;margin-top:8px}
+.rm{border:none;background:none;color:var(--mut);font-size:20px;cursor:pointer;padding:0 6px}
+.sum{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.bar{display:grid;grid-template-columns:78px 1fr 130px;gap:8px;align-items:center;margin:5px 0;font-size:13px}
+.track{height:9px;background:var(--line);border-radius:9px;overflow:hidden}.fill{height:100%;background:var(--acc);border-radius:9px;transition:width .2s}
+.fill.over{background:var(--warn)}
+.steps{font-size:13px;color:var(--mut);margin:0;padding-left:18px}
+.note{font-size:12px;color:var(--mut)}
+.tabs{overflow-x:auto;padding-bottom:4px}.tabs button{min-width:104px;border-radius:99px;white-space:nowrap}
+body{font-family:Nunito,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1,h2{font-family:Fraunces,Georgia,serif}
+.hero{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#2f8f5b,#7cba4a);color:#fff;border-radius:22px;padding:16px 18px;margin-bottom:14px;box-shadow:0 8px 24px rgba(47,143,91,.25);overflow:hidden}
+.hero h1{font-size:24px;color:#fff}.hero p{margin:2px 0 0;opacity:.92;font-size:13px}
+.hl{width:56px;height:56px;border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;flex:none;overflow:hidden}.hl img{width:100%;height:100%;object-fit:contain}
+.fr{margin-left:auto;font-size:26px;letter-spacing:4px;white-space:nowrap}
+@media(max-width:520px){.fr{display:none}}
+.card{border-radius:18px;box-shadow:0 2px 10px rgba(40,90,50,.07)}
+.kpi{border-left:4px solid #f08a3c}
+.btn{border:none;background:var(--soft);color:var(--acc);border-radius:99px;padding:8px 16px}
+.btn.pri{background:var(--acc);color:var(--accfg)}
+.btn:hover{filter:brightness(.97)}
+.rm:hover{color:var(--warn)}
+@media(max-width:520px){.wrap{padding:10px}.card{padding:11px}.grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}.bar{grid-template-columns:68px minmax(50px,1fr);gap:6px}.bar>span{grid-column:1/-1;text-align:right}.tabs button{min-width:96px}}
+a.btn{display:inline-block;text-decoration:none}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.acts .btn{margin:0}
+.doc{border:2px dashed var(--line);border-radius:18px;padding:16px;background:var(--card)}
+.dh{display:flex;gap:12px;align-items:center;border-bottom:2px solid var(--acc);padding-bottom:10px;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.chips span{background:var(--soft);padding:4px 10px;border-radius:99px;font-weight:700;font-size:13px}
+.dm{margin:10px 0;border-left:4px solid #f08a3c;padding-left:10px}.dmh{display:flex;justify-content:space-between}.dm ul{list-style:none;padding:0;margin:4px 0}.dm li{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px dotted var(--line)}
+@media print{body *{visibility:hidden}.doc,.doc *{visibility:visible}.doc{position:absolute;left:0;top:0;width:100%;border:none}}
+textarea{width:100%;padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);font:13px/1.45 ui-monospace,Menlo,monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero"><div class="hl" id="hl">🥗</div><div><h1 id="hn">Nutrivia</h1><p>Nutrição inteligente, do cálculo ao cardápio.</p></div><div class="fr">🥑🍎🥕🥦</div></div>
+  
+  <div class="tabs"><button class="on" data-tab="pac">👤 Cliente</button><button data-tab="metas">🎯 Metas</button><button data-tab="cardapio">🍽️ Cardápio</button><button data-tab="presc">📝 Prescrição</button><button data-tab="env">📤 Enviar</button><button data-tab="compras">🛒 Compras</button></div>
+
+  <section id="pac"><div class="card"><h2>Ficha do cliente</h2><div class="grid"><div><label>Nome</label><input id="pname" placeholder="Ex.: Maria Silva"></div></div><div id="cf"></div><button class="btn" id="psave">Salvar paciente</button> <button class="btn" id="pnew">Novo paciente</button><p class="note">Salvo só neste navegador (LGPD: evite dados reais em aparelhos compartilhados). Metas e cardápio atuais são salvos junto.</p></div><div class="card"><h2>Meu perfil profissional</h2><div class="grid"><div><label>Nome</label><input id="pn"></div><div><label>CRN</label><input id="pcrn"></div><div><label>Contato / Instagram</label><input id="pcon"></div><div><label>Logo (imagem)</label><input id="plogo" type="file" accept="image/*"></div></div><img id="logoPrev" alt="" hidden style="max-height:70px;margin-top:10px;display:block"><button class="btn" id="logoRm">Remover logo</button><p class="note">Logo e dados aparecem no cardápio enviado ao cliente. Ficam salvos neste navegador.</p></div><div class="card"><h2>Clientes salvos</h2><div class="acts"><button class="btn" id="exportData">Exportar backup</button><button class="btn" id="importDataBtn">Importar backup</button><input id="importData" type="file" accept="application/json,.json" hidden></div><p class="note">O backup contém dados pessoais e clínicos. Guarde-o em local privado e protegido.</p><div id="plist"></div></div><div class="card" id="evo" hidden><h2>Evolução</h2><div class="grid"><div><label>Peso (kg)</label><input id="rw" type="number" inputmode="decimal"></div><div><label>Observações</label><input id="rn"></div></div><button class="btn" id="radd">Registrar retorno</button><div id="chart"></div><div class="scroll"><table id="rt"></table></div></div></section><section id="metas" hidden>
+    <div class="card"><h2>Paciente e objetivo</h2>
+      <div class="grid">
+        <div><label>Sexo</label><select id="sex"><option value="M">Masculino</option><option value="F">Feminino</option></select></div>
+        <div><label>Idade (anos)</label><input id="age" type="number" inputmode="decimal" value="35"></div>
+        <div><label>Peso (kg)</label><input id="w" type="number" inputmode="decimal" value="82"></div>
+        <div><label>Altura (cm)</label><input id="h" type="number" inputmode="decimal" value="175"></div>
+        <div><label>Objetivo</label><select id="goal"><option value="sl">Saúde · Emagrecimento</option><option value="sm">Saúde · Manutenção</option><option value="pg">Performance · Ganho de massa</option><option value="pr">Performance · Recomposição</option><option value="en">Esportivo · Endurance</option><option value="gl">Saúde · Controle glicêmico</option><option value="id">Idoso · Preservar massa magra</option><option value="ge">Gestante · 2º trimestre</option><option value="re">Renal · Proteína reduzida</option></select></div>
+        <div><label>Fórmula da TMB</label><select id="formula"><option value="mif">Mifflin-St Jeor</option><option value="hb">Harris-Benedict</option><option value="cun">Cunningham (massa magra)</option></select></div>
+        <div id="bfBox" hidden><label>% de gordura</label><input id="bf" type="number" inputmode="decimal" value="20"></div>
+      </div>
+    </div>
+    <div class="card"><h2>Parâmetros (editáveis)</h2>
+      <div class="grid">
+        <div><label>Fator de atividade</label><input id="act" type="number" step="0.025" inputmode="decimal" value="1.55"></div>
+        <div><label>Ajuste calórico (%)</label><input id="adj" type="number" step="1" inputmode="decimal" value="-20"></div>
+        <div><label>Proteína (g/kg)</label><input id="prot" type="number" step="0.1" inputmode="decimal" value="1.6"></div>
+        <div><label>Gordura (g/kg)</label><input id="fat" type="number" step="0.1" inputmode="decimal" value="0.8"></div>
+      </div>
+      <p class="note">Ao trocar o objetivo, os parâmetros recebem valores iniciais (gestante, idoso, renal e glicêmico pedem conduta individual: ajuste conforme seu protocolo). Depois você ajusta como quiser; carboidrato é o restante das calorias.</p>
+    </div>
+    <div class="card"><h2>Resultado</h2>
+      <div class="kpis" id="kpis"></div>
+      <div class="scroll" style="margin-top:12px"><table id="mt"></table></div>
+      <h2 style="margin-top:14px">Conta passo a passo</h2><ol class="steps" id="steps"></ol>
+    </div>
+  </section>
+
+  <section id="env" hidden><div class="card"><h2>Cardápio pronto para o cliente</h2><div id="doc" class="doc"></div></div><div class="card"><h2>Enviar</h2><label>Mensagem (editável)</label><textarea id="msg" rows="10"></textarea><div class="acts"><a class="btn pri" id="wa" target="_blank" rel="noopener">📲 WhatsApp</a><a class="btn" id="ml" target="_blank" rel="noopener">✉️ E-mail</a><button class="btn" data-cp="msg">Copiar</button><button class="btn" id="prn">🖨️ Imprimir / PDF</button></div><p class="note">WhatsApp e e-mail abrem com o plano e o contato do cliente já preenchidos (preencha o WhatsApp na ficha). Para enviar o visual com a logo, use Imprimir → Salvar como PDF e anexe. Se a impressão não abrir aqui, use Ctrl+P no navegador.</p></div></section><section id="presc" hidden><div class="card"><h2>Versão técnica (prontuário)</h2><textarea id="ptec" rows="16"></textarea><button class="btn" data-cp="ptec">Copiar</button> <button class="btn" id="regen">Atualizar do plano</button></div><div class="card"><h2>Versão para o paciente</h2><textarea id="ppac" rows="14"></textarea><button class="btn" data-cp="ppac">Copiar</button></div><p class="note">Textos editáveis. Enquanto você não editar, eles acompanham metas e cardápio; "Atualizar" refaz tudo. Para PDF: cole no seu editor ou use imprimir do navegador.</p></section><section id="compras" hidden><div class="card"><h2>Lista de compras</h2><div style="max-width:200px"><label>Para quantos dias?</label><input id="days" type="number" min="1" value="7"></div><div id="shop" style="margin-top:10px"></div><p class="note">Quantidades como pesadas no cardápio (alimentos já preparados, quando for o caso).</p></div></section><section id="cardapio" hidden>
+    <div class="card sum"><h2>Total do dia × meta</h2><div id="bars"></div></div>
+    <div class="card" id="swap" hidden></div><div id="meals"></div><button class="btn" id="addMeal">+ refeição</button><datalist id="fl"></datalist>
+    <p class="note">Valores por 100 g aproximados (base TACO), apenas ilustrativos neste protótipo. No produto, o banco completo virá de TACO, IBGE e USDA.</p>
+  </section>
+</div>
+
+<script>
+const F=[["Arroz branco cozido",128,2.5,28.1,.2],["Feijão carioca cozido",76,4.8,13.6,.5],["Peito de frango grelhado",159,32,0,2.5],["Patinho moído cozido",219,35.9,0,7.3],["Ovo cozido",146,13.3,.6,9.5],["Pão francês",300,8,58.6,3.1],["Banana prata",98,1.3,26,.1],["Maçã",56,.3,15.2,0],["Aveia em flocos",394,13.9,66.6,8.5],["Leite integral",61,3.2,4.7,3.3],["Iogurte natural",51,4.1,1.9,3],["Queijo minas frescal",264,17.4,3.2,20.2],["Batata-doce cozida",77,.6,18.4,.1],["Mandioca cozida",125,.6,30.1,.3],["Macarrão cozido",102,3.4,19.9,.5],["Brócolis cozido",25,2.1,4.4,.5],["Alface",11,1.3,1.7,.2],["Tomate",15,1.1,3.1,.2],["Azeite de oliva",884,0,0,100],["Pasta de amendoim",588,25,20,50],["Arroz integral cozido",124,2.6,25.8,1],["Feijão preto cozido",77,4.5,14,.5],["Lentilha cozida",93,6.3,16.3,.5],["Grão-de-bico cozido",164,8.9,27.4,2.6],["Tilápia grelhada",128,26,0,2.7],["Salmão grelhado",229,24,0,14],["Atum em conserva (água)",116,26,0,1],["Alcatra grelhada",241,31.9,0,11.9],["Lombo suíno assado",210,35.7,0,6.4],["Peito de peru fatiado",105,17,2,2.5],["Clara de ovo",52,11,.7,.2],["Whey protein (típico)",400,80,8,6],["Leite desnatado",35,3.4,5,.1],["Queijo muçarela",330,22.6,3,25.2],["Ricota",140,12.6,3.8,8.1],["Pão integral",253,9.4,49.9,3.7],["Tapioca (goma hidratada)",240,0,60,0],["Cuscuz de milho cozido",113,2.2,25.3,.7],["Pão de queijo",363,5.1,34.2,24.6],["Batata inglesa cozida",52,1.2,11.9,0],["Mamão papaia",40,.5,10.4,.1],["Laranja",37,1,8.9,.1],["Morango",30,.9,6.8,.3],["Manga",51,.4,12.8,.3],["Uva",53,.7,13.6,.2],["Abacate",96,1.2,6,8.4],["Castanha-do-pará",643,14.5,15.1,63.5],["Amendoim torrado",606,22.5,18.7,54],["Cenoura cozida",30,.8,6.7,.2],["Manteiga",726,.4,.1,82],["Mel",309,0,84,0],["Açúcar refinado",387,.3,99.8,0]];
+const PRE={sl:[-20,1.6,.8],sm:[0,1.2,.9],pg:[10,2,1],pr:[0,2.2,.9],en:[0,1.4,1],gl:[-10,1.2,.9],id:[0,1.3,.9],ge:[15,1.1,1],re:[0,.8,.9]};
+let meal=[{n:"Café da manhã",i:[[5,50],[4,100],[6,100],[9,200]]},{n:"Almoço",i:[[0,150],[1,100],[2,150],[16,40],[17,60],[18,5]]},{n:"Lanche da tarde",i:[[10,170],[8,30],[7,130]]},{n:"Jantar",i:[[12,150],[3,120],[15,80],[18,5]]}];
+let meta={kcal:0,p:0,c:0,g:0};
+const $=id=>document.getElementById(id),v=id=>parseFloat($(id).value)||0,r0=n=>Math.round(n).toLocaleString("pt-BR"),r1=n=>(Math.round(n*10)/10).toLocaleString("pt-BR");
+
+function calc(){
+  const w=v("w"),h=v("h"),a=v("age"),m=$("sex").value==="M",f=$("formula").value;
+  const invalid=[];
+  if(!(w>0 && w<=500)) invalid.push("Informe um peso válido (maior que 0 e até 500 kg).");
+  if(!(h>=50 && h<=260)) invalid.push("Informe uma altura válida entre 50 e 260 cm.");
+  if(!(a>=1 && a<=120)) invalid.push("Informe uma idade válida entre 1 e 120 anos.");
+  if(!(v("act")>0 && v("act")<=4)) invalid.push("O fator de atividade deve ser maior que 0 e até 4.");
+  if(v("adj") < -100 || v("adj") > 100) invalid.push("O ajuste calórico deve ficar entre -100% e 100%.");
+  if(v("prot")<0 || v("prot")>5 || v("fat")<0 || v("fat")>3) invalid.push("Revise os valores de proteína e gordura por kg.");
+  if(f==="cun" && !(v("bf")>=0 && v("bf")<70)) invalid.push("Informe um percentual de gordura válido (0 a menos de 70%).");
+  if(invalid.length){
+    meta={kcal:0,p:0,c:0,g:0};
+    $("kpis").innerHTML=`<p role="alert" style="color:var(--warn)"><b>Não foi possível calcular.</b><br>${invalid.map(esc).join("<br>")}</p>`;
+    $("mt").innerHTML="";$("steps").innerHTML="";upd();return;
+  }
+  $("bfBox").hidden=f!=="cun";
+  let bmr,txt;
+  if(f==="mif"){bmr=10*w+6.25*h-5*a+(m?5:-161);txt=`TMB (Mifflin) = 10×${r1(w)} + 6,25×${r1(h)} − 5×${r1(a)} ${m?"+ 5":"− 161"} = ${r0(bmr)} kcal`}
+  else if(f==="hb"){bmr=m?88.362+13.397*w+4.799*h-5.677*a:447.593+9.247*w+3.098*h-4.33*a;txt=`TMB (Harris-Benedict revisada) = ${r0(bmr)} kcal`}
+  else{const lbm=w*(1-v("bf")/100);bmr=500+22*lbm;txt=`Massa magra = ${r1(w)}×(1 − ${r1(v("bf"))}%) = ${r1(lbm)} kg → TMB (Cunningham) = 500 + 22×${r1(lbm)} = ${r0(bmr)} kcal`}
+  const act=v("act"),get=bmr*act,kcal=get*(1+v("adj")/100),p=v("prot")*w,g=v("fat")*w,c=(kcal-4*p-9*g)/4;
+  if(!Number.isFinite(kcal)||kcal<=0||c<0){meta={kcal:0,p:0,c:0,g:0};$("kpis").innerHTML=`<p role="alert" style="color:var(--warn)">A distribuição atual de calorias e macronutrientes é inconsistente. Revise os parâmetros antes de continuar.</p>`;$("mt").innerHTML="";$("steps").innerHTML="";upd();return;}
+  meta={kcal,p,c,g};
+  $("kpis").innerHTML=`<div class="kpi"><span>TMB</span><b>${r0(bmr)}</b></div><div class="kpi"><span>GET</span><b>${r0(get)}</b></div><div class="kpi"><span>Meta (kcal)</span><b>${r0(kcal)}</b></div><div class="kpi"><span>IMC · ${imcCl(w/(h/100)**2)}</span><b>${r1(w/(h/100)**2)}</b></div><div class="kpi"><span>Água (35 mL/kg)</span><b>${r1(w*.035)} L</b></div>`;
+  const row=(n,gr,k)=>`<tr><td>${n}</td><td>${r0(gr)} g</td><td>${r1(gr/w)} g/kg</td><td>${r0(gr*k)} kcal</td><td>${r0(gr*k/kcal*100||0)}%</td></tr>`;
+  $("mt").innerHTML=`<tr><th>Macro</th><th>Gramas</th><th>Por kg</th><th>Kcal</th><th>% do total</th></tr>`+row("Proteína",p,4)+row("Carboidrato",c,4)+row("Gordura",g,9);
+  $("steps").innerHTML=[txt,`GET = ${r0(bmr)} × ${act} = ${r0(get)} kcal`,`Meta = ${r0(get)} × (1 ${v("adj")<0?"−":"+"} ${Math.abs(v("adj"))}%) = ${r0(kcal)} kcal`,`Proteína = ${v("prot")} g/kg × ${r1(w)} kg = ${r0(p)} g · Gordura = ${v("fat")} g/kg × ${r1(w)} kg = ${r0(g)} g`,`Carboidrato = (${r0(kcal)} − ${r0(p*4)} − ${r0(g*9)}) ÷ 4 = ${r0(c)} g`].map(s=>`<li>${s}</li>`).join("");
+  upd();
+}
+
+
+function render(){
+  $("meals").innerHTML=meal.map((M,mi)=>`<div class="card"><div class="meal-h"><input data-name="${mi}" value="${esc(M.n)}" style="font-weight:700;font-size:16px;max-width:60%"><span><span data-sub="${mi}"></span> <button class="rm" data-delm="${mi}" aria-label="Excluir refeição">🗑</button></span></div><div class="scroll"><table><tr><th>Alimento</th><th>Qtd (g)</th><th>kcal</th><th>P</th><th>C</th><th>G</th><th></th></tr>`+
+  M.i.map((it,ii)=>`<tr data-m="${mi}" data-i="${ii}"><td><input data-f list="fl" value="${F[it[0]][0]}" onfocus="this.select()" style="width:200px;text-align:left"></td><td><input data-g type="number" inputmode="decimal" min="0" step="5" value="${it[1]}"></td><td data-k></td><td data-p></td><td data-c></td><td data-gg></td><td><button class="rm" data-swap aria-label="Trocar">⇄</button><button class="rm" data-rm aria-label="Remover">×</button></td></tr>`).join("")+
+  `</table></div><button class="btn" data-add="${mi}">+ alimento</button></div>`).join("");
+  upd();
+}
+function upd(){
+  const T={k:0,p:0,c:0,g:0};
+  document.querySelectorAll("#meals tr[data-m]").forEach(tr=>{
+    const it=meal[tr.dataset.m].i[tr.dataset.i],f=F[it[0]],q=it[1]/100;
+    const vals={k:f[1]*q,p:f[2]*q,c:f[3]*q,g:f[4]*q};
+    tr.querySelector("[data-k]").textContent=r0(vals.k);tr.querySelector("[data-p]").textContent=r1(vals.p);tr.querySelector("[data-c]").textContent=r1(vals.c);tr.querySelector("[data-gg]").textContent=r1(vals.g);
+    for(const k in T)T[k]+=vals[k];
+    meal[tr.dataset.m].s=(meal[tr.dataset.m].s||0);
+  });
+  meal.forEach((M,mi)=>{const s=M.i.reduce((a,it)=>a+F[it[0]][1]*it[1]/100,0);const el=document.querySelector(`[data-sub="${mi}"]`);if(el)el.textContent=r0(s)+" kcal"});
+  const bar=(n,val,tg,u)=>{const d=val-tg,pc=tg>0?Math.max(0,Math.min(100,val/tg*100)):0;return `<div class="bar"><b>${n}</b><div class="track"><div class="fill${d>tg*.05?" over":""}" style="width:${pc}%"></div></div><span>${r0(val)} / ${r0(tg)} ${u} <small style="color:var(--mut)">(${d>=0?"+":""}${r0(d)})</small></span></div>`};
+  $("bars").innerHTML=bar("Energia",T.k,meta.kcal,"kcal")+bar("Proteína",T.p,meta.p,"g")+bar("Carbo",T.c,meta.c,"g")+bar("Gordura",T.g,meta.g,"g");
+}
+
+$("goal").onchange=e=>{const p=PRE[e.target.value];$("adj").value=p[0];$("prot").value=p[1];$("fat").value=p[2];calc()};
+document.querySelectorAll("#metas input,#metas select").forEach(el=>{if(el.id!=="goal")el.addEventListener("input",calc)});
+const M=$("meals");
+M.addEventListener("input",e=>{const tr=e.target.closest("tr");if(e.target.matches("[data-g]") && tr){const q=parseFloat(e.target.value);if(!Number.isFinite(q)||q<0||q>10000){e.target.setCustomValidity("Informe uma quantidade entre 0 e 10.000 g.");e.target.reportValidity();return;}e.target.setCustomValidity("");meal[tr.dataset.m].i[tr.dataset.i][1]=q;upd()}});
+M.addEventListener("change",e=>{if(e.target.matches("[data-f]")){const tr=e.target.closest("tr");const x=F.findIndex(y=>y[0].toLowerCase()===e.target.value.trim().toLowerCase()),it=meal[tr.dataset.m].i[tr.dataset.i];if(x>=0)it[0]=x;else e.target.value=F[it[0]][0];upd()}});
+M.addEventListener("click",e=>{
+  const rm=e.target.closest("[data-rm]"),ad=e.target.closest("[data-add]");
+  if(rm){const tr=rm.closest("tr");meal[tr.dataset.m].i.splice(tr.dataset.i,1);render()}
+  if(ad){meal[ad.dataset.add].i.push([0,100]);render()}
+});
+document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  show(b.dataset.tab);
+});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+$("fl").innerHTML=F.map(x=>`<option value="${x[0]}">`).join("");
+const imcCl=x=>x<18.5?"Baixo peso":x<25?"Eutrofia":x<30?"Sobrepeso":"Obesidade";
+const dom=x=>{const k=[x[2]*4,x[3]*4,x[4]*9];return k.indexOf(Math.max(...k))};
+let ed=false;
+function show(t){["pac","metas","cardapio","presc","env","compras"].forEach(x=>$(x).hidden=x!==t);document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("on",x.dataset.tab===t));if(t==="presc"&&!ed)gen();if(t==="compras")shop();if(t==="env")envr();if(t==="pac")pl();window.scrollTo(0,0)}
+function swap(mi,ii){const it=meal[mi].i[ii],f=F[it[0]],d=dom(f),t=f[2+d]*it[1]/100,nm=["proteína","carboidrato","gordura"][d];
+ const L=F.map((x,i)=>[x,i]).filter(([x,i])=>i!==it[0]&&dom(x)===d&&x[2+d]>=5);
+ $("swap").innerHTML=`<h2>Trocas para ${f[0]} (${it[1]} g) com o mesmo ${nm}</h2>`+L.map(([x,i])=>{const g=Math.round(t/x[2+d]*100);return `<button class="btn" style="margin:3px" data-pick="${i}|${g}">${g} g ${x[0]}</button>`}).join("")+`<br><button class="rm" id="swx" style="font-size:14px">fechar</button>`;
+ const s=$("swap");s.hidden=false;s.dataset.m=mi;s.dataset.i=ii;s.scrollIntoView({behavior:"smooth",block:"center"})}
+$("swap").addEventListener("click",e=>{const b=e.target.closest("[data-pick]"),s=$("swap");if(b){const [i,g]=b.dataset.pick.split("|");meal[s.dataset.m].i[s.dataset.i]=[+i,+g];s.hidden=true;render()}if(e.target.id==="swx")s.hidden=true});
+M.addEventListener("click",e=>{const s=e.target.closest("[data-swap]"),dm=e.target.closest("[data-delm]");if(s){const tr=s.closest("tr");swap(+tr.dataset.m,+tr.dataset.i)}if(dm){meal.splice(+dm.dataset.delm,1);render()}});
+M.addEventListener("input",e=>{if(e.target.matches("[data-name]"))meal[e.target.dataset.name].n=e.target.value});
+$("addMeal").onclick=()=>{meal.push({n:"Nova refeição",i:[]});render()};
+function shop(){const d=v("days")||1,T={};meal.forEach(m=>m.i.forEach(([f,g])=>T[f]=(T[f]||0)+g));
+ $("shop").innerHTML=Object.entries(T).sort((a,b)=>F[a[0]][0].localeCompare(F[b[0]][0])).map(([f,g])=>`<label style="display:flex;gap:8px;align-items:center;color:var(--fg);font-size:15px;padding:6px 0;border-bottom:1px solid var(--line)"><input type="checkbox" style="width:auto"><span style="flex:1">${F[f][0]}</span><b>${g*d>=1000?r1(g*d/1000)+" kg":r0(g*d)+" g"}</b></label>`).join("")||"Cardápio vazio."}
+$("days").addEventListener("input",shop);
+function gen(){const n=$("pname").value||"Paciente",w=v("w"),h=v("h"),imc=w/(h/100)**2,T={k:0,p:0,c:0,g:0};
+ const L=meal.map(m=>{let s=0;const li=m.i.map(([f,q])=>{const x=F[f];s+=x[1]*q/100;T.p+=x[2]*q/100;T.c+=x[3]*q/100;T.g+=x[4]*q/100;return `  - ${x[0]}: ${q} g`});T.k+=s;return {t:`${m.n} (${r0(s)} kcal)\n${li.join("\n")}`,p:`${m.n}\n${li.join("\n")}`}});
+ $("ptec").value=`PRESCRIÇÃO DIETÉTICA (versão técnica)\nPaciente: ${n} | ${$("sex").value} | ${v("age")} anos | ${r1(w)} kg | ${r1(h)} cm | IMC ${r1(imc)} (${imcCl(imc)})\nObjetivo: ${$("goal").selectedOptions[0].text}\nRestrições/alergias: ${$("c_rest").value||"—"}\nMedicamentos/suplementos: ${$("c_med").value||"—"}\nHistórico clínico: ${$("c_hist").value||"—"}\n\nCÁLCULO\n`+[...document.querySelectorAll("#steps li")].map(l=>"- "+l.textContent).join("\n")+`\n\nMETAS: ${r0(meta.kcal)} kcal | P ${r0(meta.p)} g | C ${r0(meta.c)} g | G ${r0(meta.g)} g | Água ≈ ${r1(w*.035)} L/dia\n\nPLANO ALIMENTAR\n${L.map(l=>l.t).join("\n\n")}\n\nTOTAL PRESCRITO: ${r0(T.k)} kcal | P ${r0(T.p)} g | C ${r0(T.c)} g | G ${r0(T.g)} g\n\nConduta/observações:\n\nNutricionista: ____________  CRN: ______  Data: ${new Date().toLocaleDateString("pt-BR")}`;
+ $("ppac").value=`Olá, ${n}! Este é o seu plano alimentar.\n\nMeta do dia: cerca de ${r0(T.k)} kcal.\n\n${L.map(l=>l.p).join("\n\n")}\n\nDicas:\n- Beba cerca de ${r1(w*.035)} litros de água por dia.\n- Faça as refeições com calma e nos horários combinados.\n- Se algum alimento não cair bem, peça uma troca ao seu nutricionista.\n\nSeu plano será ajustado nos retornos.`}
+["ptec","ppac"].forEach(id=>$(id).addEventListener("input",()=>ed=true));
+$("regen").onclick=()=>{ed=false;gen()};
+document.querySelectorAll("[data-cp]").forEach(b=>b.onclick=()=>{const t=$(b.dataset.cp);t.select();try{navigator.clipboard.writeText(t.value)}catch(e){}try{document.execCommand("copy")}catch(e){}b.textContent="Copiado ✓";setTimeout(()=>b.textContent="Copiar",1500)});
+const CF=[["c_tel","WhatsApp","tel"],["c_mail","E-mail","email"],["c_nasc","Nascimento","date"],["c_prof","Profissão","text"],["c_cin","Cintura (cm)","number"],["c_qua","Quadril (cm)","number"]],CT=[["c_obj","Queixa e objetivo"],["c_rest","Alergias, intolerâncias e restrições"],["c_pref","Preferências (gosta / não gosta)"],["c_med","Medicamentos e suplementos"],["c_hist","Histórico clínico e familiar"],["c_rot","Rotina (treino, sono, horários)"],["c_obs","Observações"]];
+$("cf").innerHTML=`<div class="grid">`+CF.map(([i,l,t])=>`<div><label>${l}</label><input id="${i}" type="${t}"${t==="number"?' inputmode="decimal"':""}></div>`).join("")+`</div><p class="note" id="rcq"></p>`+CT.map(([i,l])=>`<label style="margin-top:8px">${l}</label><textarea id="${i}" rows="2"></textarea>`).join("")+`<p class="note">Sexo, idade, peso e altura ficam na aba Metas.</p>`;
+const KEYS=["sex","age","w","h","goal","formula","bf","act","adj","prot","fat",...CF.map(x=>x[0]),...CT.map(x=>x[0])];
+function rcq(){const c=v("c_cin"),q=v("c_qua");$("rcq").textContent=c>0&&q>0?`RCQ ${(c/q).toFixed(2).replace(".",",")} · ${c/q>($("sex").value==="M"?.9:.85)?"risco cardiovascular elevado":"dentro do esperado"}`:""}
+["c_cin","c_qua","sex"].forEach(i=>$(i).addEventListener("input",rcq));
+let P=[],cur=null;
+try{P=JSON.parse(localStorage.getItem("nf_pts")||"[]")}catch(e){}
+const store=()=>{try{localStorage.setItem("nf_pts",JSON.stringify(P));return true}catch(e){console.error("Falha ao salvar pacientes",e);return false}};
+function pl(){$("plist").innerHTML=P.map((p,i)=>`<div style="display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)"><b style="flex:1">${esc(p.n)}${i===cur?" ●":""}</b><span class="note">${p.r.length} retorno(s)</span><button class="btn" style="margin:0" data-open="${i}">Abrir</button><button class="rm" data-del="${i}" aria-label="Excluir">🗑</button></div>`).join("")||"<span class='note'>Nenhum paciente salvo ainda.</span>"}
+function evo(){$("evo").hidden=cur===null;if(cur===null)return;const R=P[cur].r;let s="";
+ if(R.length>1){const W=R.map(x=>x.w),a=Math.min(...W),b=Math.max(...W),sp=b-a||1,X=i=>10+i*280/(R.length-1),Y=x=>90-(x-a)/sp*75;s=`<svg viewBox="0 0 300 100" style="width:100%;max-height:160px"><polyline points="${R.map((x,i)=>X(i)+","+Y(x.w)).join(" ")}" fill="none" stroke="var(--acc)" stroke-width="2.5"/>${R.map((x,i)=>`<circle cx="${X(i)}" cy="${Y(x.w)}" r="3.5" fill="var(--acc)"/>`).join("")}<text x="2" y="10" font-size="8" fill="var(--mut)">${r1(b)} kg</text><text x="2" y="99" font-size="8" fill="var(--mut)">${r1(a)} kg</text></svg>`}
+ $("chart").innerHTML=s;
+ $("rt").innerHTML=`<tr><th>Data</th><th>Peso</th><th>Obs.</th></tr>`+R.map(x=>`<tr><td>${x.d.split("-").reverse().join("/")}</td><td>${r1(x.w)} kg</td><td style="text-align:left;white-space:normal">${esc(x.n||"")}</td></tr>`).join("")}
+$("psave").onclick=()=>{
+  const name=$("pname").value.trim();
+  if(!name){alert("Informe o nome do paciente antes de salvar.");$("pname").focus();return;}
+  const s={n:name,f:KEYS.map(k=>$(k).value),meal:JSON.parse(JSON.stringify(meal)),updatedAt:new Date().toISOString()};
+  if(cur!==null && P[cur]) Object.assign(P[cur],s); else {P.push({...s,r:[],createdAt:new Date().toISOString()});cur=P.length-1;}
+  if(!store()){alert("Não foi possível salvar. Exporte um backup e verifique o espaço disponível no navegador.");return;}
+  pl();evo();alert("Paciente salvo neste navegador.");
+};
+$("pnew").onclick=()=>{
+  cur=null;$("pname").value="";
+  KEYS.forEach(k=>{const el=$(k);if(!el)return;if(el.tagName==="SELECT")el.selectedIndex=0;else if(el.type==="number")el.value=({age:"35",w:"82",h:"175",bf:"20",act:"1.55",adj:"-20",prot:"1.6",fat:"0.8"}[k]||"");else el.value="";});
+  meal=[{n:"Café da manhã",i:[]},{n:"Almoço",i:[]},{n:"Lanche da tarde",i:[]},{n:"Jantar",i:[]}];ed=false;render();calc();gen();rcq();pl();evo();
+};
+$("radd").onclick=()=>{
+  if(cur===null || !P[cur]){alert("Salve ou abra um paciente antes de registrar a evolução.");return;}
+  const weight=parseFloat($("rw").value);
+  if(!(weight>0 && weight<=500)){alert("Informe um peso válido para o retorno.");$("rw").focus();return;}
+  P[cur].r.push({d:new Date().toISOString().slice(0,10),w:weight,n:$("rn").value.trim()});$("rn").value="";
+  if(!store()){alert("Não foi possível salvar a evolução no navegador.");return;}pl();evo();
+};
+$("plist").addEventListener("click",e=>{const o=e.target.closest("[data-open]"),d=e.target.closest("[data-del]");
+ if(o){const p=P[+o.dataset.open];cur=+o.dataset.open;$("pname").value=p.n;KEYS.forEach((k,j)=>$(k).value=p.f[j]??"");rcq();meal=JSON.parse(JSON.stringify(p.meal));ed=false;render();calc();pl();evo()}
+ if(d){const i=+d.dataset.del;P.splice(i,1);if(cur===i)cur=null;else if(cur!==null&&cur>i)cur--;store();pl();evo()}});
+// Backup portátil dos pacientes e do perfil profissional.
+$("exportData").onclick=()=>{
+  const payload={app:"Nutrivia",version:2,exportedAt:new Date().toISOString(),patients:P,profile:PR};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=`nutrivia-backup-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+};
+$("importDataBtn").onclick=()=>$("importData").click();
+$("importData").onchange=async e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  try{
+    const data=JSON.parse(await file.text());
+    if(!data || data.app!=="Nutrivia" || !Array.isArray(data.patients)) throw new Error("Formato de backup não reconhecido.");
+    if(!confirm(`Importar ${data.patients.length} paciente(s)? Os pacientes atualmente salvos serão substituídos.`))return;
+    P=data.patients;PR=data.profile&&typeof data.profile==="object"?data.profile:{};cur=null;
+    if(!store())throw new Error("O navegador não conseguiu armazenar os pacientes importados.");
+    savePR();brand();pl();evo();alert("Backup importado. Abra um paciente para continuar.");
+  }catch(err){alert("Não foi possível importar o backup: "+err.message)}finally{e.target.value=""}
+};
+let PR={};try{PR=JSON.parse(localStorage.getItem("nf_prof")||"{}")}catch(e){}
+const savePR=()=>{try{localStorage.setItem("nf_prof",JSON.stringify(PR))}catch(e){}};
+function brand(){$("logoPrev").hidden=!PR.logo;if(PR.logo)$("logoPrev").src=PR.logo;$("hl").innerHTML=PR.logo?`<img src="${PR.logo}" alt="logo">`:"🥗";$("hn").textContent=PR.pn||"Nutrivia"}
+["pn","pcrn","pcon"].forEach(i=>{$(i).value=PR[i]||"";$(i).addEventListener("input",()=>{PR[i]=$(i).value;savePR();brand()})});
+$("plogo").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,300/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);PR.logo=c.toDataURL("image/png");savePR();brand()};im.src=r.result};r.readAsDataURL(f)};
+$("logoRm").onclick=()=>{delete PR.logo;savePR();brand()};
+function links(){const msg=$("msg").value;let t=($("c_tel").value||"").replace(/\D/g,"");if(t&&t.length<=11)t="55"+t;$("wa").href=`https://wa.me/${t}?text=${encodeURIComponent(msg)}`;$("ml").href=`mailto:${$("c_mail").value}?subject=${encodeURIComponent("Seu plano alimentar")}&body=${encodeURIComponent(msg)}`}
+$("msg").addEventListener("input",links);
+$("prn").onclick=()=>window.print();
+function envr(){if(!ed)gen();const w=v("w"),n=$("pname").value||"cliente",T={k:0,p:0,c:0,g:0};
+ const ms=meal.map(m=>{let s=0;const li=m.i.map(([f,q])=>{const x=F[f];s+=x[1]*q/100;T.p+=x[2]*q/100;T.c+=x[3]*q/100;T.g+=x[4]*q/100;return `<li><span>${x[0]}</span><b>${q} g</b></li>`}).join("");T.k+=s;return `<div class="dm"><div class="dmh"><b>${esc(m.n)}</b><span>${r0(s)} kcal</span></div><ul>${li||"<li>—</li>"}</ul></div>`}).join("");
+ $("doc").innerHTML=`<div class="dh"><div class="hl">${PR.logo?`<img src="${PR.logo}" alt="logo">`:"🥗"}</div><div><b>${esc(PR.pn||"Seu nutricionista")}</b><br><small>${PR.pcrn?"CRN "+esc(PR.pcrn)+" · ":""}${esc(PR.pcon||"")}</small></div></div><h2>Plano alimentar de ${esc(n)}</h2><p class="note">${new Date().toLocaleDateString("pt-BR")} · Objetivo: ${$("goal").selectedOptions[0].text}</p><div class="chips"><span>🔥 ${r0(T.k)} kcal</span><span>🥩 P ${r0(T.p)} g</span><span>🍚 C ${r0(T.c)} g</span><span>🥑 G ${r0(T.g)} g</span><span>💧 ${r1(w*.035)} L</span></div>${ms}<p class="note">Dicas: beba água ao longo do dia, coma com calma e, se algo não cair bem, peça uma troca. Seu plano será ajustado nos retornos.</p>`;
+ $("msg").value=`${$("ppac").value}\n\n— ${PR.pn||""} ${PR.pcrn?"CRN "+PR.pcrn:""} ${PR.pcon||""}`.trim();links()}
+brand();render();calc();pl();evo();
+</script>
+</body>
+</html>
